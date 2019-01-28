@@ -17,9 +17,8 @@ The objective of the project is to build and validate a customer segmentation ba
 3.	Identify the best forecast models for each segment
 4.	Identify potential rate code mislabeling 
 
-<details><summary>Summary</summary>
-   
 # Summary  
+<details><summary>Summary</summary>
 
 1. Retroactively adding account attributes such as magnitude of average use and response to temperature may support improved forecasting and billing abilities.  
     * Response to temperature must be defined over a timeframe that experiences temperate and cold temperatures (Sept – Feb).
@@ -46,10 +45,10 @@ The objective of the project is to build and validate a customer segmentation ba
 
 
 # Analysis and Modeling
+
+### Procedure  
 <details><summary>Procedure</summary>
    
-### Procedure  
-
 Broadly speaking, our procedure for analysis and modelling consisted of 4 main steps (see Figure 1 below):
 1.	Identify differing use patterns and group meter IDs according to similarity of use.
 2.	Create forecasting models and identify optimal model for each cluster.
@@ -60,9 +59,8 @@ Broadly speaking, our procedure for analysis and modelling consisted of 4 main s
 
 </details> 
 
-<details><summary>Segmentation</summary>
-   
-### Segmentation  
+### Segmentation 
+<details><summary>Segmentation</summary> 
 
 Segmentation seeks to identify groups with similar behavior.  As our task was to identify a weather-based model, we wanted to understand how each customer (meter ID) behaved with respect to weather.  With that in mind, we created groups by answering the following questions: “On average, how much gas use does the meter read,” and “How does the metered use respond to changes in temperature?” 
 To understand how much gas each meter used, we calculated each meter’s average use from 2017 to 2018.  Looking at the distribution of consumption, we defined 4 thresholds, creating 5 clusters where the meters in each group all have similar average daily use (see Figures 2,3):
@@ -90,9 +88,8 @@ Combining magnitude of use and response to temperature analyses, we identified 1
 
 </details> 
 
-<details><summary>Understanding New Clusters</summary>
-
 ### Understanding New Clusters
+<details><summary>Understanding New Clusters</summary>
 
 Within residential customers, 17% are non-responders with minimal usage (see circle in Figure 8 below), and all have a heating rate code, which indicates potential of misclassification and would require further investigation. 
 
@@ -112,9 +109,8 @@ The dual-service accounts (one with both electric and gas meters) with minimal n
 
 </details>
 
-<details><summary>Forecasting</summary>
-
 ### Forecasting
+<details><summary>Forecasting</summary>
 
 We implemented both regression models and time-series forecasts on daily and hourly data.  We investigated using any and all weather information as predictors of gas use in the regression model; however, only prior temperature and change in temperature demonstrated significant relationships with use.  Plotting the relationship between use and temperature indicated a linear relationship, so the regression model is a linear regression predicting use based on prior temperature and temperature change (Figure 12).  The daily regression model uses the prior day’s low temperature and the change from the prior day, while the hourly regression model uses the prior hour’s temperature and the change in temperature from 6 hours ago. 
 
@@ -146,9 +142,9 @@ Regression forecast models using prior temperature and change in temperature on 
 
 When comparing clusters to Rate Codes, we identified a small portion of customers who may be misclassified and need further investigation. Specifically, 17% of Residential meters and 3% of Commercial meters exhibit average use <1.5 CCF/ day and are not responsive to weather. However, they are billed using the Gas Heat rate code. Of the accounts that have both a gas and electric meter, 14% are minimal gas users and not responsive to weather, but they are billed using the Electric Non-heat rate code. Therefore, adding response to weather to PECO’s current rate codes may help improve forecasting for responsive groups, and help identify potentially misclassified accounts. 
 
+# Caveats & Limitations
 <details><summary>Caveats & Limitations</summary>
    
-# Caveats & Limitations
 The clustering technique using magnitude of average daily usage and response to temperature both require at least 9 months of contiguous use data per meter. They are best thought as a validation for the rate code, not as a replacement.  
 
 The technique used to identify response to temperature requires analyst experimentation and interpretation as we currently do not have a way to use current clusters to sort new meters. This requires analyst intervention any time new meters are acquired. 
