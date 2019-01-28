@@ -90,3 +90,69 @@ Combining magnitude of use and response to temperature analyses, we identified 1
 
 </details> 
 
+<details><summary>Understanding New Clusters</summary>
+
+### Understanding New Clusters
+
+Within residential customers, 17% are non-responders with minimal usage (see circle in Figure 8 below), and all have a heating rate code, which indicates potential of misclassification and would require further investigation. 
+
+![Figure 8](/assets/Fig8.png)
+
+Most commercial accounts are responsive to weather; the exceptions are primarily commercial ‘transport’ accounts for whom PECO merely provides transportation for natural gas.  The accounts generally have huge consumption, and likely do not use natural gas for heating, perhaps instead using for industrial purposes.
+
+![Figure 9](/assets/Fig9.png)
+
+For accounts with both a gas and an electric meter, we identified some potential misclassification as 14% of the accounts that have both a gas and electric meter use minimal amounts of gas and do not respond to weather are billed using the electric non-heat rate code. We believe these accounts do not use gas for heating; they may use oil, wood, or electricity instead.  If these accounts use electric heating, they are misclassified.
+
+![Figure 10](/assets/Fig10.png)
+
+The dual-service accounts (one with both electric and gas meters) with minimal non-responsive gas usage, 3% have both gas and electric heat rates or neither.
+
+![Figure 11](/assets/Fig11.png)
+
+</details>
+
+<details><summary>Forecasting</summary>
+
+### Forecasting
+
+We implemented both regression models and time-series forecasts on daily and hourly data.  We investigated using any and all weather information as predictors of gas use in the regression model; however, only prior temperature and change in temperature demonstrated significant relationships with use.  Plotting the relationship between use and temperature indicated a linear relationship, so the regression model is a linear regression predicting use based on prior temperature and temperature change (Figure 12).  The daily regression model uses the prior day’s low temperature and the change from the prior day, while the hourly regression model uses the prior hour’s temperature and the change in temperature from 6 hours ago. 
+
+![Figure 12](/assets/Fig12.png)
+
+The time-series models were developed using an automated SARIMAX (Seasonal, AutoRegressive Integrated Moving Average with eXternal regressor) function that automatically identified the appropriate parameters for the models.  The SARIMAX models use historic use, seasonal trends, and temperature as predictive inputs to forecast use.  
+
+At the daily level the regression models demonstrate good explanation among Responder groups, with an R2 value of approximately 80% across all responder groups.  However, the regression models have low R2 values and high error (RMSE: Root Mean Square Error – lower is better) for non-responder groups (Figure 13).  We attempted to use the SARIMAX models as an alternative forecast method for clusters where regression forecasts do not perform well. Unfortunately, SARIMAX models did not perform any better on these groups, which can be due to (a) insufficient historic data to detect trends/patterns, or (b) that these clusters’ natural gas use is triggered by an external factor that is not presented in the dataset.
+
+![Figure 13](/assets/Fig13.png)
+
+We created similar Regression and SARIMAX models for hourly data, which did not perform as well as on daily level. This is to be expected, as there is more variability (and thus, unpredictability) as the granularity of the data increases.  We see the same problem with hourly as we did with daily data - among Responder groups, approximately 60% of the change in use can be predicted using the prior hour’s low (°F) and the temperature change over the past 6 hours. However, the models still do not perform well on clusters that have “huge” usage and other clusters who do not respond to temperature.
+
+![Figure 14](/assets/Fig14.png)
+
+In both daily and hourly forecasts, “huge” users are very challenging to forecast.  Part of this problem is that the average use per meter varies between 150 CCF to >4000 CCF.  This dramatic variance within the “huge” group means contributes to the high error rate.  Additionally, the small number of “huge” meters mean that each meter can have a large influence on the average.  It may be that forecasting each meter individually gives better results, especially for the “huge” meters with a weather response.
+
+Based on our analysis, we believe that retroactively adding attributes about magnitude of average use and response to temperature to customer accounts may support improved forecasting and billing abilities. Response to temperature must be defined over a timeframe that experiences temperate and cold temperatures (September-February). Segmenting by magnitude of average use reduces regression errors but also requires a history of use over a timeframe that experiences both warm and cold temperature.
+
+</details>
+
+# Conclusion
+
+83% of the meters in our sample have use that responds to weather, meaning they are viable candidates for weather-based regression forecasts.  These accounts consist primarily of residential and small commercial meters.  However, this 83% of meters accounts for only 54% of total gas sold in 2018 (Figure 15). The relatively few commercial accounts that are non-responsive to weather but have huge/high use account for nearly half of the gas consumption January- September 2018, and these commercial accounts have highly varied usage, which makes forecasting as a cluster challenging as their use is not easily predicted by weather or historic consumption data.
+
+![Figure 15](/assets/Fig15.png)
+
+Regression forecast models using prior temperature and change in temperature on daily level are sufficient to predict usage for weather responders. Among responder groups, the prior day’s lowest temperature and the change from day to day explains approximately 80% of the change in daily use. Hourly forecast based on the prior hour’s low and change in temperature over the past 6 hours have slightly worse performance than the daily model.  Time-series models based on historic use do not perform any better than weather-based models, even on clusters that do not respond to weather.  
+
+When comparing clusters to Rate Codes, we identified a small portion of customers who may be misclassified and need further investigation. Specifically, 17% of Residential meters and 3% of Commercial meters exhibit average use <1.5 CCF/ day and are not responsive to weather. However, they are billed using the Gas Heat rate code. Of the accounts that have both a gas and electric meter, 14% are minimal gas users and not responsive to weather, but they are billed using the Electric Non-heat rate code. Therefore, adding response to weather to PECO’s current rate codes may help improve forecasting for responsive groups, and help identify potentially misclassified accounts. 
+
+<details><summary>Caveats & Limitations</summary>
+   
+# Caveats & Limitations
+The clustering technique using magnitude of average daily usage and response to temperature both require at least 9 months of contiguous use data per meter. They are best thought as a validation for the rate code, not as a replacement.  
+
+The technique used to identify response to temperature requires analyst experimentation and interpretation as we currently do not have a way to use current clusters to sort new meters. This requires analyst intervention any time new meters are acquired. 
+ 
+Weather-based regression requires future weather data to predict use, which incorporates the error from weather forecast models. Our forecast models are weak to data that varies without cause/ explanation (ex: huge usage cluster). ARIMA models are inherently data-greedy, and acquiring additional historic data may improve ARIMA performance for non-responsive clusters.
+
+</details>
