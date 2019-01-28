@@ -17,6 +17,7 @@ The objective of the project is to build and validate a customer segmentation ba
 3.	Identify the best forecast models for each segment
 4.	Identify potential rate code mislabeling 
 
+<details><summary>Summary</summary>
 # Summary
 1. Retroactively adding account attributes such as magnitude of average use and response to temperature may support improved forecasting and billing abilities.  
     * Response to temperature must be defined over a timeframe that experiences temperate and cold temperatures (Sept – Feb).
@@ -38,9 +39,15 @@ The objective of the project is to build and validate a customer segmentation ba
     * Of the accounts that have both a gas and electric meter, 14% are minimal gas users and not responsive to weather.  However, they are billed using the electric non-heat Rate Code.
     * Adding response to weather to PECO’s current rate codes may help improve forecasting for responsive groups, and help identify potentially misclassified accounts.
 
+</details>
+
+
 
 # Analysis and Modeling
+<details><summary>Procedure</summary>
+   
 ### Procedure
+
 Broadly speaking, our procedure for analysis and modelling consisted of 4 main steps (see Figure 1 below):
 1.	Identify differing use patterns and group meter IDs according to similarity of use.
 2.	Create forecasting models and identify optimal model for each cluster.
@@ -49,7 +56,12 @@ Broadly speaking, our procedure for analysis and modelling consisted of 4 main s
 
 ![Figure 1](/assets/Fig1.png)
 
+</details> 
+
+<details><summary>Segmentation</summary>
+   
 ### Segmentation
+
 Segmentation seeks to identify groups with similar behavior.  As our task was to identify a weather-based model, we wanted to understand how each customer (meter ID) behaved with respect to weather.  With that in mind, we created groups by answering the following questions: “On average, how much gas use does the meter read,” and “How does the metered use respond to changes in temperature?” 
 To understand how much gas each meter used, we calculated each meter’s average use from 2017 to 2018.  Looking at the distribution of consumption, we defined 4 thresholds, creating 5 clusters where the meters in each group all have similar average daily use (see Figures 2,3):
 
@@ -59,5 +71,5 @@ We expect residential and small commercial accounts to have relatively small dai
 
 ![Figure 3](/assets/Fig3.png)
 
-
+</details> 
 
