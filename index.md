@@ -18,7 +18,9 @@ The objective of the project is to build and validate a customer segmentation ba
 4.	Identify potential rate code mislabeling 
 
 <details><summary>Summary</summary>
-# Summary
+   
+# Summary  
+
 1. Retroactively adding account attributes such as magnitude of average use and response to temperature may support improved forecasting and billing abilities.  
     * Response to temperature must be defined over a timeframe that experiences temperate and cold temperatures (Sept – Feb).
     * Segmenting by magnitude of average use reduces regression errors, but also requires a history of use over a timeframe that experiences both warm and cold temperatures.
@@ -46,7 +48,7 @@ The objective of the project is to build and validate a customer segmentation ba
 # Analysis and Modeling
 <details><summary>Procedure</summary>
    
-### Procedure
+### Procedure  
 
 Broadly speaking, our procedure for analysis and modelling consisted of 4 main steps (see Figure 1 below):
 1.	Identify differing use patterns and group meter IDs according to similarity of use.
@@ -60,7 +62,7 @@ Broadly speaking, our procedure for analysis and modelling consisted of 4 main s
 
 <details><summary>Segmentation</summary>
    
-### Segmentation
+### Segmentation  
 
 Segmentation seeks to identify groups with similar behavior.  As our task was to identify a weather-based model, we wanted to understand how each customer (meter ID) behaved with respect to weather.  With that in mind, we created groups by answering the following questions: “On average, how much gas use does the meter read,” and “How does the metered use respond to changes in temperature?” 
 To understand how much gas each meter used, we calculated each meter’s average use from 2017 to 2018.  Looking at the distribution of consumption, we defined 4 thresholds, creating 5 clusters where the meters in each group all have similar average daily use (see Figures 2,3):
@@ -70,6 +72,21 @@ To understand how much gas each meter used, we calculated each meter’s average
 We expect residential and small commercial accounts to have relatively small daily usage, and only large commercial and industrial accounts to have high use. As 88% of our population are residential customers, it makes sense that we have a large population of customers who fall into minimal and low usage clusters.  
 
 ![Figure 3](/assets/Fig3.png)
+
+In order to understand how use responds to weather, we had a hypothesis that as temperatures decrease, gas use should increase when it is used as a source of heating.  Therefore, we looked at use from September 2017 to February 2018 as these months should exhibit temperature variation and also contain the coldest temperatures of the year.  We then examined temperature vs average gas use for each date and meter.  This allowed us to identify whether and how each meter’s use changes in response to the temperature.  
+The goal of clustering is to identify groups of meters that have similar behavior which we interpreted as similar weather responses.  We used an algorithm called k-shape that identifies similarities between time-series data, allowing us to identify groups with similar behavior.  Using k-shape, we identified 2 clusters (see Figures 4, 5) based on whether their gas consumption is responsive to temperate and cold temperatures or not.  The weather-responsive cluster demonstrates gas consumption with a directly inverse relationship to temperature.  Clusters that do not directly respond to weather (‘non-responders’) may ignore large temperature swings, demonstrate high use that is not related to weather, or behave non-intuitively. 
+
+![Figure 4](/assets/Fig4.png)
+
+![Figure 5](/assets/Fig5.png)
+
+The majority (84%) of the meters in our data are responders (see Figure 6).  As with the magnitude of use analysis, this makes sense as most of our meters belong to residential accounts, which primarily use natural gas for heating.  When gas is used for heating, we would expect to see use increase as temperatures decrease.
+
+![Figure 6](/assets/Fig6.png)
+
+Combining magnitude of use and response to temperature analyses, we identified 10 clusters (5 use, 2 response).  However, no accounts exist in the low use non-responder category, leaving us with 9 clusters, of which the largest cluster has low average use (1.5-3.5 CCF per day) and responds to weather. 
+
+![Figure 7](/assets/Fig7.png)
 
 </details> 
 
