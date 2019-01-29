@@ -18,7 +18,8 @@ The objective of the project is to build and validate a customer segmentation ba
 4.	Identify potential rate code mislabeling 
 
 # Summary  
-<details><summary>Summary</summary>
+
+<details><summary>Summary</summary>  
 
 1. Retroactively adding account attributes such as magnitude of average use and response to temperature may support improved forecasting and billing abilities.  
     * Response to temperature must be defined over a timeframe that experiences temperate and cold temperatures (Sept – Feb).
@@ -38,7 +39,7 @@ The objective of the project is to build and validate a customer segmentation ba
 5. When comparing clusters to Rate Codes, we identified a small proportion of customers who may be misclassified and need further investigation.
     * 17% of residential meters and 3% of commercial meters exhibit average use < 1.5 CCF / day and are not responsive to weather.  However, they are billed using the gas heat Rate Code.
     * Of the accounts that have both a gas and electric meter, 14% are minimal gas users and not responsive to weather.  However, they are billed using the electric non-heat Rate Code.
-    * Adding response to weather to PECO’s current rate codes may help improve forecasting for responsive groups, and help identify potentially misclassified accounts.
+    * Adding response to weather to PECO’s current rate codes may help improve forecasting for responsive groups, and help identify potentially misclassified accounts.  
 
 </details>
 
