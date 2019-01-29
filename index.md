@@ -50,7 +50,7 @@ The objective of the project is to build and validate a customer segmentation ba
 
 ### Procedure  
 <details><summary>Procedure</summary>
-   
+   <div markdown="1">
 Broadly speaking, our procedure for analysis and modelling consisted of 4 main steps (see Figure 1 below):
 1.	Identify differing use patterns and group meter IDs according to similarity of use.
 2.	Create forecasting models and identify optimal model for each cluster.
@@ -58,12 +58,12 @@ Broadly speaking, our procedure for analysis and modelling consisted of 4 main s
 4.	Identify accounts where actual patterns of use do not align with anticipated patterns inferred from rate codes.
 
 ![Figure 1](/assets/Fig1.png)
-
+   </div>
 </details> 
 
 ### Segmentation 
 <details><summary>Segmentation</summary> 
-
+   <div markdown = "1">
 Segmentation seeks to identify groups with similar behavior.  As our task was to identify a weather-based model, we wanted to understand how each customer (meter ID) behaved with respect to weather.  With that in mind, we created groups by answering the following questions: “On average, how much gas use does the meter read,” and “How does the metered use respond to changes in temperature?” 
 To understand how much gas each meter used, we calculated each meter’s average use from 2017 to 2018.  Looking at the distribution of consumption, we defined 4 thresholds, creating 5 clusters where the meters in each group all have similar average daily use (see Figures 2,3):
 
@@ -87,12 +87,12 @@ The majority (84%) of the meters in our data are responders (see Figure 6).  As 
 Combining magnitude of use and response to temperature analyses, we identified 10 clusters (5 use, 2 response).  However, no accounts exist in the low use non-responder category, leaving us with 9 clusters, of which the largest cluster has low average use (1.5-3.5 CCF per day) and responds to weather. 
 
 ![Figure 7](/assets/Fig7.png)
-
+   </div>
 </details> 
 
 ### Understanding New Clusters
 <details><summary>Understanding New Clusters</summary>
-
+   <div markdown="1">
 Within residential customers, 17% are non-responders with minimal usage (see circle in Figure 8 below), and all have a heating rate code, which indicates potential of misclassification and would require further investigation. 
 
 ![Figure 8](/assets/Fig8.png)
@@ -108,12 +108,12 @@ For accounts with both a gas and an electric meter, we identified some potential
 The dual-service accounts (one with both electric and gas meters) with minimal non-responsive gas usage, 3% have both gas and electric heat rates or neither.
 
 ![Figure 11](/assets/Fig11.png)
-
+   </div>
 </details>
 
 ### Forecasting
 <details><summary>Forecasting</summary>
-
+   <div markdown="1">
 We implemented both regression models and time-series forecasts on daily and hourly data.  We investigated using any and all weather information as predictors of gas use in the regression model; however, only prior temperature and change in temperature demonstrated significant relationships with use.  Plotting the relationship between use and temperature indicated a linear relationship, so the regression model is a linear regression predicting use based on prior temperature and temperature change (Figure 12).  The daily regression model uses the prior day’s low temperature and the change from the prior day, while the hourly regression model uses the prior hour’s temperature and the change in temperature from 6 hours ago. 
 
 ![Figure 12](/assets/Fig12.png)
@@ -131,7 +131,7 @@ We created similar Regression and SARIMAX models for hourly data, which did not 
 In both daily and hourly forecasts, “huge” users are very challenging to forecast.  Part of this problem is that the average use per meter varies between 150 CCF to >4000 CCF.  This dramatic variance within the “huge” group means contributes to the high error rate.  Additionally, the small number of “huge” meters mean that each meter can have a large influence on the average.  It may be that forecasting each meter individually gives better results, especially for the “huge” meters with a weather response.
 
 Based on our analysis, we believe that retroactively adding attributes about magnitude of average use and response to temperature to customer accounts may support improved forecasting and billing abilities. Response to temperature must be defined over a timeframe that experiences temperate and cold temperatures (September-February). Segmenting by magnitude of average use reduces regression errors but also requires a history of use over a timeframe that experiences both warm and cold temperature.
-
+   </div>
 </details>
 
 # Conclusion
@@ -146,11 +146,11 @@ When comparing clusters to Rate Codes, we identified a small portion of customer
 
 # Caveats & Limitations
 <details><summary>Caveats & Limitations</summary>
-   
+   <div markdown="1">
 The clustering technique using magnitude of average daily usage and response to temperature both require at least 9 months of contiguous use data per meter. They are best thought as a validation for the rate code, not as a replacement.  
 
 The technique used to identify response to temperature requires analyst experimentation and interpretation as we currently do not have a way to use current clusters to sort new meters. This requires analyst intervention any time new meters are acquired. 
  
 Weather-based regression requires future weather data to predict use, which incorporates the error from weather forecast models. Our forecast models are weak to data that varies without cause/ explanation (ex: huge usage cluster). ARIMA models are inherently data-greedy, and acquiring additional historic data may improve ARIMA performance for non-responsive clusters.
-
+   </div>
 </details>
