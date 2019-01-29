@@ -21,7 +21,7 @@ The objective of the project is to build and validate a customer segmentation ba
 
 <details>
    <summary>Summary</summary>  
-   
+   <div markdown="1">
    1. Retroactively adding account attributes such as magnitude of average use and response to temperature may support improved forecasting and billing abilities.  
       * Response to temperature must be defined over a timeframe that experiences temperate and cold temperatures (Sept – Feb).
       * Segmenting by magnitude of average use reduces regression errors, but also requires a history of use over a timeframe that experiences both warm and cold temperatures.
@@ -41,7 +41,7 @@ The objective of the project is to build and validate a customer segmentation ba
       * 17% of residential meters and 3% of commercial meters exhibit average use < 1.5 CCF / day and are not responsive to weather.  However, they are billed using the gas heat Rate Code.
       * Of the accounts that have both a gas and electric meter, 14% are minimal gas users and not responsive to weather.  However, they are billed using the electric non-heat Rate Code.
       * Adding response to weather to the company’s current rate codes may help improve forecasting for responsive groups, and help identify potentially misclassified accounts.  
-
+   </div>
 </details>
 
 
