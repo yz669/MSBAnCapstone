@@ -35,11 +35,11 @@ The objective of the project is to build and validate a customer segmentation ba
     * Hourly forecasts based on the prior hour’s low and change in temperature over the past 6 hours do not perform as well as a daily model.
     * Weather-based forecasts require anticipated future temperatures to predict future use; we recommend using them in the near-term (potentially to improve spot-market purchase predictions).
     * Models based on historic use do not perform any better than weather models, even on clusters that do not respond to weather.
-4. Weather models demonstrate significantly better performance on responder clusters, as opposed to non-responders or PECO Rate Codes.
+4. Weather models demonstrate significantly better performance on responder clusters, as opposed to non-responders or Rate Codes.
 5. When comparing clusters to Rate Codes, we identified a small proportion of customers who may be misclassified and need further investigation.
     * 17% of residential meters and 3% of commercial meters exhibit average use < 1.5 CCF / day and are not responsive to weather.  However, they are billed using the gas heat Rate Code.
     * Of the accounts that have both a gas and electric meter, 14% are minimal gas users and not responsive to weather.  However, they are billed using the electric non-heat Rate Code.
-    * Adding response to weather to PECO’s current rate codes may help improve forecasting for responsive groups, and help identify potentially misclassified accounts.  
+    * Adding response to weather to the company’s current rate codes may help improve forecasting for responsive groups, and help identify potentially misclassified accounts.  
 
 </details>
 
